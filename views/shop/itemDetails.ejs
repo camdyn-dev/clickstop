@@ -83,33 +83,32 @@
 					</div>
 				</div>
 				<div class="col-md-7">
-					<%let inside=inCart(user, items, val)%>
-						<div class="single-product-details">
-							<h2>
-								<%=item.name%>
-							</h2>
-							<h6 class="starability-result" data-rating="<%=item.ratingAvg%>">
-								Rated: <%=item.ratingAvg%> stars
-							</h6>
-							<p class="product-price">$<%=item.price%>
-							</p>
+					<div class="single-product-details">
+						<h2>
+							<%=item.name%>
+						</h2>
+						<h6 class="starability-result" data-rating="<%=item.ratingAvg%>">
+							Rated: <%=item.ratingAvg%> stars
+						</h6>
+						<p class="product-price">$<%=item.price%>
+						</p>
 
-							<p class="product-description mt-20">
-								<%= item.description%>
-							</p>
-							<% if(currentUser && !inside){%>
-								<form action="/shop/addToCart/<%=item.id%>" method="POST">
-									<button type="submit" class="btn btn-main mt-20">Add To
-										Cart</button>
-								</form>
-								<%} else if(currentUser && inside) {%>
-									<a href="/shop/cart" class="btn btn-main mt-20">In
-										cart</a>
-									<%}else{%>
-										<a href="/user/login" class="btn btn-main mt-20">Log
-											in first</a>
-										<%}%>
-						</div>
+						<p class="product-description mt-20">
+							<%= item.description%>
+						</p>
+						<% if(currentUser && !inCartPass){%>
+							<form action="/shop/addToCart/<%=item.id%>" method="POST">
+								<button type="submit" class="btn btn-main mt-20">Add To
+									Cart</button>
+							</form>
+							<%} else if(currentUser && inCartPass) {%>
+								<a href="/shop/cart" class="btn btn-main mt-20">In
+									cart</a>
+								<%}else{%>
+									<a href="/user/login" class="btn btn-main mt-20">Log
+										in first</a>
+									<%}%>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -265,7 +264,7 @@
 					<div id="relatedItems">
 						<% for(let i=0; i < relatedAmount; i++) {%>
 							<% let val=i%>
-								<%let insideAlso=inCart(user, items, val)%>
+								<%let inside=inCart(user, items, val)%>
 									<!--logic on whether or not to disable the add to cart button-->
 									<div class="col-md-3">
 										<div class="product-item">
@@ -288,7 +287,7 @@
 														</li>
 														<li>
 															<!--add the add to cart shit here-->
-															<%if(!insideAlso){%>
+															<%if(!inside){%>
 																<form action="/shop/addToCart/<%=items[val].id%>"
 																	method="POST">
 																	<a href=""><button type="submit"
@@ -331,7 +330,7 @@
 		<!-- Modal -->
 		<% for(let i=0; i < relatedAmount; i++) {%>
 			<% let val=i%>
-				<%let insideAlso=inCart(user, items, val)%>
+				<%let inside=inCart(user, items, val)%>
 					<!--logic on whether or not to disable the add to cart button-->
 					<!--  -->
 					<div class="modal product-modal fade" id="product-modal<%=val%>">
@@ -363,7 +362,7 @@
 												<p class="product-short-description">
 													<%=items[val].description%>
 												</p>
-												<%if(!insideAlso){%>
+												<%if(!inside){%>
 													<form action="/shop/addToCart/<%=items[val].id%>" method="POST">
 														<button class="btn btn-main">Add
 															To
