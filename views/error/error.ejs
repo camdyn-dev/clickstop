@@ -1,0 +1,20 @@
+<% layout("./boilerplate/minBoilerplate.ejs")%>
+    <section class="page-404">
+        <!--kinda irritating, the styling will only work this way and I kinda don't want to go into the CSS File-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <a href="index.html">
+                    <img src="images/logo.png" alt="site logo" />
+                </a> -->
+                    <h1>Error!</h1>
+                    <h2>Something went wrong...</h2>
+                    <p>
+                        <%=err.message%>
+                    </p>
+                    <a href="/shop/main" class="btn btn-main"><i class="tf-ion-android-arrow-back"></i> Go Home</a>
+                    <p class="copyright-text">© 2022 Camdyn B. and Themefisher All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </section>

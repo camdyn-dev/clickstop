@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <style>
+        .invoiceItems {
+            padding: 5px;
+        }
+    </style>
+    <div style="max-width: 560px; margin-left: auto; margin-right: auto;">
+        <table>
+            <tr>
+                <th>
+
+                    <img src="https://res.cloudinary.com/camdyn/image/upload/v1643166026/logo_ebimnc.png" alt=""
+                        style="width: 50%; height: auto;">
+
+                </th>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <h1>Thank you for your order!</h1>
+                    <hr style="width: 80%;">
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align:center">
+                    <h5>Order ID: <%=order.orderId%></a>
+                    </h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="margin-left:auto ; margin-right: auto;">
+                        <tr>
+                            <th class="invoiceItems">Items</th>
+                            <th class="invoiceItems">Quantity</th>
+                            <th class="invoiceItems">Price</th>
+
+                        </tr>
+                        <!--use da loop over here XD POO POO PEE PEE-->
+                        <%for (item of order.orderDetails.orderItems){%>
+                            <tr>
+                                <td class="invoiceItems">
+                                    <%=item.name%>
+                                </td>
+                                <td class="invoiceItems">1</td>
+                                <td class="invoiceItems">$<%=item.unit_amount.value%>
+                                </td>
+
+                            </tr>
+                            <%}%>
+                                <tr>
+                                    <td>
+                                        <hr>
+                                    </td>
+                                    <td>
+                                        <hr>
+                                    </td>
+                                    <td>
+                                        <hr>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="invoiceItems"><b>Total</b></td>
+                                    <td class="invoiceItems"></td>
+                                    <td class="invoiceItems">
+                                        $<%=order.orderDetails.orderTotal.amount.value%>
+                                    </td>
+                                </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <hr style="width: 50%;">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <a href="http://localhost:3000/shop/main" style="margin: 5px;">Home</a><a
+                        href="http://localhost:3000/shop/allItems" style="margin: 5px;">Shop</a>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center">
+                    ShopStop - 2022
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
+
+<!-- surprisingly this shit works, now I just need to make it look a bit less g a r b a g e-->

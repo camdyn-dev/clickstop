@@ -1,0 +1,389 @@
+<% layout("./boilerplate/fullBoilerplate.ejs")%>
+	<style>
+		@media(min-width:768px) {
+			#relatedItems {
+				display: flex;
+				justify-content: center;
+			}
+		}
+	</style>
+	<!--big motherfucking giganticly massive kekw brain moment XD-->
+	<span style="display: none;">
+		<%let inCart=(customer, product, it)=> {%>
+			<%if(currentUser){%>
+				<%for(userItem of customer.shoppingCart){%>
+					<%if(userItem.id==product[it].id){%>
+						<%return true%>
+							<%}}}}%>
+	</span>
+	<span style="display: none;">
+		<% let relatedAmount=null%>
+			<%if (items.length>= 4){%>
+				<%relatedAmount=4%>
+					<%} else{%>
+						<%relatedAmount=items.length%>
+							<%}%>
+	</span>
+	<!--I wish there was a way to move this out of the template AND keep it on the server side, tho-->
+
+	<section class="single-product">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<ol class="breadcrumb">
+						<li><a href="/shop/main">Home</a></li>
+						<li><a href="/shop/allItems">Shop</a></li>
+						<li class="active">
+							<%=item.name%>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="row mt-20">
+				<div class="col-md-5">
+					<div class="single-product-slider">
+						<div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+							<div class='carousel-outer'>
+								<!-- me art lab slider -->
+								<div class='carousel-inner'>
+									<!--will put a for loop here and make a new item for each image-->
+									<div class='item active'>
+										<img src='<%=item.images[0].path%>' alt='' data-zoom-image="" />
+									</div>
+									<% for(let i=1; i < item.images.length; i++){%>
+										<div class='item'>
+											<img src='<%=item.images[i].path%>' alt='' data-zoom-image="" />
+										</div>
+										<%}%>
+
+								</div>
+								<% if(item.images.length> 1){%>
+									<!-- sag sol -->
+									<a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+										<i class="tf-ion-ios-arrow-left"></i>
+									</a>
+									<a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+										<i class="tf-ion-ios-arrow-right"></i>
+									</a>
+									<%}%>
+							</div>
+							<ol class='carousel-indicators mCustomScrollbar meartlab'>
+								<li data-target='#carousel-custom' data-slide-to='0' class='active'>
+									<img src='<%=item.images[0].path%>' alt='' />
+								</li>
+								<% for(let i=1; i < item.images.length; i++){%>
+									<li data-target='#carousel-custom' data-slide-to='0' class='active'>
+										<img src='<%=item.images[i].path%>' alt='' />
+									</li>
+									<%}%>
+
+							</ol>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="single-product-details">
+						<h2>
+							<%=item.name%>
+						</h2>
+						<h6 class="starability-result" data-rating="<%=item.ratingAvg%>">
+							Rated: <%=item.ratingAvg%> stars
+						</h6>
+						<p class="product-price">$<%=item.price%>
+						</p>
+
+						<p class="product-description mt-20">
+							<%= item.description%>
+						</p>
+						<% if(currentUser && !inCart){%>
+							<form action="/shop/addToCart/<%=item.id%>" method="POST">
+								<button type="submit" class="btn btn-main mt-20">Add To
+									Cart</button>
+							</form>
+							<%} else if(currentUser && inCart) {%>
+								<a href="/shop/cart" class="btn btn-main mt-20">In
+									cart</a>
+								<%}else{%>
+									<a href="/user/login" class="btn btn-main mt-20">Log
+										in first</a>
+									<%}%>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="tabCommon mt-20">
+						<ul class="nav nav-tabs">
+							<% if(item.reviews.length < 1){%>
+								<li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">Reviews
+										(0)</a></li>
+								<li class="active"><a data-toggle="tab" href="#postReview" aria-expanded="true">Post a
+										review</a>
+								</li>
+								<%}else{%>
+									<li class="active"><a data-toggle="tab" href="#reviews"
+											aria-expanded="false">Reviews
+											(<%=item.reviews.length%>)</a></li>
+									<li class=""><a data-toggle="tab" href="#postReview" aria-expanded="true">Post
+											a review</a>
+									</li>
+									<%}%>
+						</ul>
+
+						<div class="tab-content patternbg">
+
+							<!--I will turn this into the review adding section, and the other will stay the same with displaying reviews-->
+							<div id="postReview" class="tab-pane fade">
+								<% if(currentUser && user.emailConfirmed){%>
+									<form action="/review/createReview/<%=item.id%>" method="POST">
+										<div class="form-group">
+											<input type="text" placeholder="Review title" class="form-control"
+												name="review[title]" required minlength="4" maxlength="40">
+										</div>
+
+										<fieldset class="starability-checkmark">
+											<input type="radio" id="no-rate" class="input-no-rate" name="review[rating]"
+												value="0" checked aria-label="No rating." />
+											<input type="radio" id="first-rate1" name="review[rating]" value="1" />
+											<label for="first-rate1" title="Terrible">1
+												star</label>
+											<input type="radio" id="first-rate2" name="review[rating]" value="2" />
+											<label for="first-rate2" title="Not good">2
+												stars</label>
+											<input type="radio" id="first-rate3" name="review[rating]" value="3" />
+											<label for="first-rate3" title="Average">3
+												stars</label>
+											<input type="radio" id="first-rate4" name="review[rating]" value="4" />
+											<label for="first-rate4" title="Very good">4
+												stars</label>
+											<input type="radio" id="first-rate5" name="review[rating]" value="5" />
+											<label for="first-rate5" title="Amazing">5
+												stars</label>
+										</fieldset>
+
+
+										<div class="form-group">
+											<textarea rows="6" placeholder="Review body" class="form-control"
+												name="review[body]" id="message" required minlength="10"
+												maxlength="500"></textarea>
+										</div>
+
+										<button type="submit" class="btn btn-main">Submit</button>
+
+									</form>
+									<%}else if(currentUser && !user.emailConfirmed){%>
+										<h2 class="text-center">You need
+											to confirm your email to
+											post a review.</h2>
+										<%}else{%>
+											<h2 class="text-center">You
+												need to be logged in to
+												do that.</h2>
+											<%}%>
+							</div>
+
+
+							<div id="reviews" class="tab-pane fade active in">
+								<div class="post-comments">
+									<ul class="media-list comments-list m-bot-50 clearlist">
+										<!-- Comment Item start-->
+										<%for (review of item.reviews){%>
+											<li class="media">
+
+												<a class="pull-left" href="#!">
+													<img class="media-object comment-avatar"
+														src="https://res.cloudinary.com/camdyn/image/upload/v1643430496/userIcon_gm0xaa.png"
+														alt="" width="50" height="50" />
+												</a>
+
+												<div class="media-body">
+													<div class="comment-info">
+														<h4 class="comment-author">
+															<a>
+																<%=review.author.username%>
+															</a>
+
+														</h4>
+														<div>
+															<h4>
+																<%=review.title%>
+															</h4>
+															<h6 class="starability-result"
+																data-rating="<%=review.rating%>">
+																Rated:
+																<%=review.rating%>
+																	stars
+															</h6>
+
+
+														</div>
+														<time>Posted on:
+															<%=review.postDate%>
+														</time>
+													</div>
+													<p>
+														<%=review.body%>
+
+													</p>
+													<% if(currentUser===review.author.id){%>
+														<form
+															action="/review/deleteReview/<%=item.id%>/<%=review.id%>?_method=DELETE"
+															method="POST" class="">
+
+															<button class="comment-button">Delete</button>
+														</form>
+														<%}%>
+												</div>
+
+											</li>
+											<%}%>
+												<!-- End Comment Item -->
+
+									</ul>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<% if(adminCheck){%>
+					<a href="/bingChillin/editItem/<%=item.id%>"><button class="btn btn-main">Edit Item?</button></a>
+					<%}%>
+			</div>
+	</section>
+	<%if(items.length> 0){%>
+		<section class="products related-products section">
+			<div class="container">
+				<div class="row">
+					<div class="title text-center">
+						<h2>Related Products</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div id="relatedItems">
+						<% for(let i=0; i < relatedAmount; i++) {%>
+							<% let val=i%>
+								<%let inside=inCart(user, items, val)%>
+									<!--logic on whether or not to disable the add to cart button-->
+									<div class="col-md-3">
+										<div class="product-item">
+											<div class="product-thumb">
+												<!--maybe i can use this later if I decide to implement some sale kinda shit-->
+												<!-- <span class="bage">Sale</span> -->
+												<img class="img-responsive" src="<%=items[val].images[0].path%>"
+													alt="product-img" />
+												<div class="preview-meta">
+													<ul>
+														<li>
+															<!-- gonna need to find an exact way to do this, but I need it to have specific modals. Or maybe not? That might take 4ever to load on the client side-->
+															<span data-toggle="modal"
+																data-target="#product-modal<%=val%>">
+																<button class="relatedButtons">
+																	<i class="tf-ion-ios-search">
+																	</i>
+																</button>
+															</span>
+														</li>
+														<li>
+															<!--add the add to cart shit here-->
+															<%if(!inside){%>
+																<form action="/shop/addToCart/<%=items[val].id%>"
+																	method="POST">
+																	<a href=""><button type="submit"
+																			class="relatedButtons"><i
+																				class="tf-ion-android-cart"></i></button>
+																	</a>
+																</form>
+																<%}%>
+
+														</li>
+													</ul>
+												</div>
+											</div>
+											<div class="product-content">
+												<h4><a href="/shop/item/<%=items[val].id%>">
+														<%=items[val].name%>
+													</a>
+												</h4>
+												<p class="starability-result"
+													style="margin-left: auto; margin-right: auto;"
+													data-rating="<%=items[val].ratingAvg%>">
+													Rated:
+													<%=items[val].ratingAvg%>
+														stars
+												</p>
+												<p class="price">
+													$<%=items[val].price%>
+												</p>
+											</div>
+										</div>
+									</div>
+									<%}%>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+		<!-- Modal -->
+		<% for(let i=0; i < relatedAmount; i++) {%>
+			<% let val=i%>
+				<%let inside=inCart(user, items, val)%>
+					<!--logic on whether or not to disable the add to cart button-->
+					<!--  -->
+					<div class="modal product-modal fade" id="product-modal<%=val%>">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<i class="tf-ion-close"></i>
+						</button>
+						<div class="modal-dialog " role="document">
+							<div class="modal-content">
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-md-8">
+											<div class="modal-image">
+												<img class="img-responsive" src="<%=items[val].images[0].path%>" />
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="product-short-details">
+												<h2 class="product-title">
+													<%=items[val].name%>
+												</h2>
+												<h6 class="starability-result" data-rating="<%=items[val].ratingAvg%>">
+													Rated:
+													<%=items[val].ratingAvg%>
+														stars
+												</h6>
+												<p class="product-price">
+													$<%=items[val].price%>
+												</p>
+												<p class="product-short-description">
+													<%=items[val].description%>
+												</p>
+												<%if(!inside){%>
+													<form action="/shop/addToCart/<%=items[val].id%>" method="POST">
+														<button class="btn btn-main">Add
+															To
+															Cart</button>
+													</form>
+													<%}else{%>
+														<a href="/shop/cart" class="btn btn-main">In
+															cart</a>
+														<%}%>
+
+															<a href="/shop/item/<%=items[val].id%>"
+																class="btn btn-transparent">View
+																Product
+																Details</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<%}%>
+						<%}%>

@@ -1,0 +1,45 @@
+<% layout("./boilerplate/minBoilerplate.ejs")%>
+    <div class="container">
+        <div class="total-order mt-20">
+            <!-- <h4>Total Orders</h4> -->
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(order of transactions){%>
+                            <tr>
+                                <td>#<%=order.orderData.orderId%>
+                                </td>
+                                <td>
+                                    <%=order.customer.username%>
+                                </td>
+                                <td>
+                                    <%=order.date%>
+                                </td>
+                                <td>
+                                    <%=order.orderData.orderDetails.orderItems.length%>
+                                </td>
+                                <td>
+                                    $
+                                    <%=order.orderData.orderDetails.orderTotal.amount.value%>
+                                </td>
+                                <td><span class="label label-success">Completed</span>
+                                </td>
+                            </tr>
+                            <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <a href="/bingChillin/newItem">Create a new item?</a> | <a href="/user/logout">Logout?</a> | <a
+            href="/shop/allItems">Index</a>
+    </div>

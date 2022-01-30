@@ -1,0 +1,18 @@
+<% layout("./boilerplate/fullBoilerplate.ejs")%>
+    <section class="page-wrapper success-msg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="block text-center">
+                        <i class="tf-ion-android-checkmark-circle"></i>
+                        <h2 class="text-center">Your account has been confirmed!</h2>
+                        <%if(currentUser){%>
+                            <a href="/shop/main" class="btn btn-main mt-20">Start Shopping!</a>
+                            <%}else{%>
+                                <a href="/user/login" class="btn btn-main mt-20">Now, Login!</a>
+                                <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.page-wrapper -->

@@ -1,0 +1,146 @@
+<% layout("./boilerplate/fullBoilerplate.ejs")%>
+    <span style="display: none;">
+        <%let inCart=(customer, product, it)=> {%>
+            <%if(currentUser){%>
+                <%for(userItem of customer.shoppingCart){%>
+                    <%if(userItem.id==product[it].id){%>
+                        <%return true%>
+                            <%}}}}%>
+    </span>
+
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">Shop</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/shop/main">Home</a></li>
+                            <li class="active">Shop</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="products section">
+        <div class="container">
+            <div class="row">
+                <% for (let i=0; i < items.length; i++){%>
+                    <% let val=i %>
+                        <!--logic on whether or not to disable the add to cart button-->
+                        <% let inside=inCart(user, items, val)%>
+                            <div class="col-md-4">
+                                <div class="product-item">
+                                    <div class="product-thumb">
+                                        <img class="img-responsive" src="<%=items[val].images[0].path%>"
+                                            alt="product-img" />
+                                        <div class="preview-meta">
+                                            <ul>
+                                                <li>
+                                                    <!-- gonna need to find an exact way to do this, but I need it to have specific modals. Or maybe not? That might take 4ever to load on the client side-->
+                                                    <span data-toggle="modal" data-target="#product-modal<%=val%>">
+                                                        <button class="relatedButtons">
+                                                            <i class="tf-ion-ios-search">
+                                                            </i>
+                                                        </button>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <!--add the add to cart shit here-->
+                                                    <%if(!inside){%>
+                                                        <form action="/shop/addToCart/<%=items[val].id%>" method="POST">
+                                                            <a href=""><button type="submit" class="relatedButtons"><i
+                                                                        class="tf-ion-android-cart"></i></button>
+                                                            </a>
+                                                        </form>
+                                                        <%}%>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h4><a href="/shop/item/<%=items[val].id%>">
+                                                <%=items[val].name%>
+                                            </a></h4>
+                                        <p class="starability-result" style="margin-left: auto; margin-right: auto;"
+                                            data-rating="<%=items[val].ratingAvg%>">
+                                            Rated: <%=items[val].ratingAvg%> stars
+                                        </p>
+                                        <p class="price">$<%=items[val].price%>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+                                <!--modal-->
+                                <% for(let i=0; i < items.length; i++){%>
+                                    <% let val=i%>
+                                        <!--logic on whether or not to disable the add to cart button-->
+                                        <% let inside=inCart(user, items, val)%>
+                                            <div class="modal product-modal fade" id="product-modal<%=val%>">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <i class="tf-ion-close"></i>
+                                                </button>
+                                                <div class="modal-dialog " role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                                                    <div class="modal-image">
+                                                                        <img class="img-responsive"
+                                                                            src="<%=items[val].images[0].path%>"
+                                                                            alt="product-img" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                                                    <div class="product-short-details">
+                                                                        <h2 class="product-title">
+                                                                            <%=items[val].name%>
+                                                                        </h2>
+                                                                        <p class="starability-result"
+                                                                            data-rating="<%=items[val].ratingAvg%>">
+                                                                            Rated:
+                                                                            <%=items[val].ratingAvg%>
+                                                                                stars
+                                                                        </p>
+                                                                        <p class="product-price">
+                                                                            $<%=items[val].price%>
+                                                                        </p>
+                                                                        <p class="product-short-description">
+                                                                            <%=items[val].description%>
+                                                                        </p>
+                                                                        <%if(!inside){%>
+                                                                            <form
+                                                                                action="/shop/addToCart/<%=items[val].id%>"
+                                                                                method="POST">
+                                                                                <button class="btn btn-main">Add
+                                                                                    To
+                                                                                    Cart</button>
+                                                                            </form>
+                                                                            <%}else{%>
+                                                                                <a href="/shop/cart"
+                                                                                    class="btn btn-main">In
+                                                                                    cart</a>
+                                                                                <%}%>
+                                                                                    <a href="/shop/item/<%=items[val].id%>"
+                                                                                        class="btn btn-transparent">View
+                                                                                        Product
+                                                                                        Details</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}%>
+                                                <!-- /.modal -->
+
+            </div>
+        </div>
+    </section>

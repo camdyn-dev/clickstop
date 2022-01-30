@@ -1,0 +1,22 @@
+<% layout("./boilerplate/fullBoilerplate.ejs")%>
+    <section class="page-wrapper success-msg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="block text-center">
+                        <i class="tf-ion-android-checkmark-circle"></i>
+                        <h2 class="text-center">Thank you for your order!</h2>
+                        <h3 class="text center">Order number: <%=transaction.orderId%>
+                        </h3>
+                        <p>
+                            <%for (let i=0; i < transaction.orderDetails.orderItems.length; i++) {%>
+                                Item <%=i + 1%>: <%=transaction.orderDetails.orderItems[i].name%> -
+                                        $<%=transaction.orderDetails.orderItems[i].unit_amount.value%> <br>
+                                            <%}%>Order total: $<%=transaction.orderDetails.orderTotal.amount.value%>
+                        </p>
+                        <a href="/shop/main" class="btn btn-main mt-20">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.page-warpper -->

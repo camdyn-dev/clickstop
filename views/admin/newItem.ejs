@@ -1,0 +1,67 @@
+<% layout("./boilerplate/minBoilerplate.ejs")%>
+    <!-- just gotta style it xd pepega pepooga-->
+    <!--I think using the current item view template to do it would be pretty cool, so I'll figure out how to plug it in right here-->
+    <form action="/bingChillin/newItem" method="POST" enctype="multipart/form-data">
+        <section class="single-product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ol class="breadcrumb">
+                            <li><a href="/shop/main">Home</a></li>
+                            <li><a href="/bingChillin/adminMain">Admin</a></li>
+                            <li class="active">New item</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col-md-5">
+                        <div class="single-product-slider">
+                            <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+                                <div class='carousel-outer'>
+                                    <!-- me art lab slider -->
+                                    <div class='carousel-inner'>
+                                        <!--will put a for loop here and make a new item for each image-->
+                                        <div class='item active'>
+                                            <img src='https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Frlv.zcache.com%2Ftemplate_blank_add_your_image_text_here_sticker-r64216cd6594f4f23bdad64fee876a3a1_v9waf_8byvr_512.jpg&f=1&nofb=1'
+                                                alt='' data-zoom-image="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="single-product-details">
+                            <h2>
+                                <div class="input-group">
+                                    <span class="input-group-text">Enter title:</span>
+                                    <input class="form-control" type="text" name="item[name]" required>
+                                </div>
+                            </h2>
+                            <p class="product-price">
+                            <div class="input-group">
+                                <span class="input-group-text">Enter price:</span>
+                                <input class="form-control" type="number" name="item[price]" required>
+                            </div>
+                            </p>
+                            <div>
+                                <div class="input-group">
+                                    <span class="input-group-text">Upload images:</label>
+                                        <input type="file" class="form-control" id="images" name="images" multiple
+                                            required>
+                                </div>
+                            </div>
+
+                            <p class="product-description mt-20">
+                            <div class="input-group my-3">
+                                <span class="input-group-text">Enter description:</span>
+                                <textarea class="form-control" name="item[description]" id="" placeholder=""></textarea>
+                            </div>
+                            </p>
+                            <button class="btn btn-success" type="submit">Submit post</button> <a href="/"><button
+                                    class="btn btn-danger">Cancel?</button></a>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </form>

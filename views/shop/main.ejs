@@ -1,0 +1,236 @@
+<% layout("./boilerplate/fullBoilerplate.ejs")%>
+    <span style="display: none;">
+        <%let inCart=(customer, product, it)=> {%>
+            <%if(currentUser){%>
+                <%for(userItem of customer.shoppingCart){%>
+                    <%if(userItem.id==product[it].id){%>
+                        <%return true%>
+                            <%}}}}%>
+    </span>
+    <span style="display: none;">
+        <% let relatedAmount=null%>
+            <%if (items.length>= 3){%>
+                <%relatedAmount=3%>
+                    <%} else{%>
+                        <%relatedAmount=items.length%>
+                            <%}%>
+
+    </span>
+    <style>
+        @media(min-width:768px) {
+            #featuredItems {
+                display: flex;
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <div class="hero-slider">
+        <div class="slider-item th-fullpage hero-area"
+            style="background-image: url(https://images.unsplash.com/photo-1619410283995-43d9134e7656?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 text-center">
+                        <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1"></p>
+                        <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">We live in a
+                            society
+                            <br>
+                            bottom text
+                        </h1>
+                        <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn"
+                            href="/shop/allItems">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-item th-fullpage hero-area"
+            style="background-image: url(https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 text-left">
+                        <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1"></p>
+                        <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">I have
+                            commited
+                            <br>
+                            several warcrimes.
+                        </h1>
+                        <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn"
+                            href="/shop/allItems">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-item th-fullpage hero-area"
+            style="background-image: url(https://images.unsplash.com/photo-1607706189992-eae578626c86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80); background-size: cover;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 text-right">
+                        <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1"></p>
+                        <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">My ballsack is
+                            <br>
+                            very itchy
+                        </h1>
+                        <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn"
+                            href="/shop/allItems">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="about section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img class="img-responsive"
+                        src="https://res.cloudinary.com/camdyn/image/upload/v1643493077/1643439576455_lqugbr.jpg"
+                        style="margin-left: auto; margin-right: auto;">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mt-40">About This Shop</h2>
+                    <p>This is a little project I made to practice full-stack skills and see how
+                        it would fit together
+                        in a real application.</p>
+                    <p>It was created using the MEN stack (Mongo, Express, and Node.Js), and the
+                        Aviato Bootstrap template. I
+                        haven't learned a front-end framework yet, so that's why there isn't one
+                        being used.</p>
+                    <p>If you want to, please try to break it! It's obviously not water-tight,
+                        but I feel like I did a
+                        relatively good job at securing it. If you do manage to crash it or
+                        break something, please send
+                        me an email.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <section class="products section bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="title text-center">
+                    <h2>Featured Items</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div id="featuredItems">
+
+                    <% for (let i=0; i < relatedAmount; i++){%>
+                        <% let val=i %>
+                            <% let inside=inCart(user, items, val)%>
+                                <div class="col-md-4">
+                                    <div class="product-item">
+                                        <div class="product-thumb">
+                                            <img class="img-responsive" src="<%=items[val].images[0].path%>"
+                                                alt="product-img" />
+                                            <div class="preview-meta">
+                                                <ul>
+                                                    <li>
+                                                        <!-- gonna need to find an exact way to do this, but I need it to have specific modals. Or maybe not? That might take 4ever to load on the client side-->
+                                                        <span data-toggle="modal" data-target="#product-modal<%=val%>">
+                                                            <button class="relatedButtons">
+                                                                <i class="tf-ion-ios-search">
+                                                                </i>
+                                                            </button>
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <!--add the add to cart shit here-->
+                                                        <%if(!inside){%>
+                                                            <form action="/shop/addToCart/<%=items[val].id%>"
+                                                                method="POST">
+                                                                <a href=""><button type="submit"
+                                                                        class="relatedButtons"><i
+                                                                            class="tf-ion-android-cart"></i></button>
+                                                                </a>
+                                                            </form>
+                                                            <%}%>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <h4><a href="/shop/item/<%=items[val].id%>">
+                                                    <%=items[val].name%>
+                                                </a></h4>
+                                            <p class="starability-result" style="margin-left: auto; margin-right: auto;"
+                                                data-rating="<%=items[val].ratingAvg%>">
+                                                Rated: <%=items[val].ratingAvg%> stars
+                                            </p>
+                                            <p class="price">$<%=items[val].price%>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <%}%>
+                </div>
+
+                <!-- Modal -->
+                <% for(let i=0; i < relatedAmount; i++){%>
+                    <% let val=i%>
+                        <!--logic on whether or not to disable the add to cart button-->
+                        <% let inside=inCart(user, items, val)%>
+                            <div class="modal product-modal fade" id="product-modal<%=val%>">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="tf-ion-close"></i>
+                                </button>
+                                <div class="modal-dialog " role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                                    <div class="modal-image">
+                                                        <img class="img-responsive" src="<%=items[val].images[0].path%>"
+                                                            alt="product-img" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="product-short-details">
+                                                        <h2 class="product-title">
+                                                            <%=items[val].name%>
+                                                        </h2>
+                                                        <p class="starability-result"
+                                                            data-rating="<%=items[val].ratingAvg%>">
+                                                            Rated:
+                                                            <%=items[val].ratingAvg%>
+                                                                stars
+                                                        </p>
+                                                        <p class="product-price">
+                                                            $<%=items[val].price%>
+                                                        </p>
+                                                        <p class="product-short-description">
+                                                            <%=items[val].description%>
+                                                        </p>
+                                                        <% if(!inside){%>
+                                                            <form action="/shop/addToCart/<%=items[val].id%>"
+                                                                method="POST">
+                                                                <button class="btn btn-main">Add
+                                                                    To
+                                                                    Cart</button>
+                                                            </form>
+                                                            <%}else{%>
+                                                                <a href="/shop/cart" class="btn btn-main">In
+                                                                    cart</a>
+                                                                <%}%>
+                                                                    <a href="/shop/item/<%=items[val].id%>"
+                                                                        class="btn btn-transparent">View
+                                                                        Product
+                                                                        Details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+                                <!-- /.modal -->
+
+            </div>
+
+    </section>

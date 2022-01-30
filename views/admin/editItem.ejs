@@ -1,0 +1,108 @@
+<% layout("./boilerplate/minBoilerplate.ejs")%>
+
+    <section class="single-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <ol class="breadcrumb">
+                        <li><a href="/shop/main">Home</a></li>
+                        <li><a href="/bingChillin/adminMain">Admin</a></li>
+                        <li class="active">
+                            Editing: <%=item.name%>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row mt-20">
+
+                <div class="col-md-5">
+                    <form action="/bingChillin/editItem/<%=item.id%>?_method=PATCH" method="POST"
+                        enctype="multipart/form-data" class="d-inline">
+                        <div class="single-product-slider">
+                            <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+                                <div class='carousel-outer'>
+                                    <!-- me art lab slider -->
+                                    <div class='carousel-inner'>
+                                        <!--will put a for loop here and make a new item for each image-->
+                                        <div class='item active'>
+                                            <img src='<%=item.images[0].path%>' alt='' data-zoom-image="" />
+                                        </div>
+                                        <% for(let i=1; i < item.images.length; i++){%>
+                                            <div class='item'>
+                                                <img src='<%=item.images[i].path%>' alt='' data-zoom-image="" />
+                                            </div>
+                                            <%}%>
+
+                                    </div>
+
+                                    <!-- sag sol -->
+                                    <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+                                        <i class="tf-ion-ios-arrow-left"></i>
+                                    </a>
+                                    <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+                                        <i class="tf-ion-ios-arrow-right"></i>
+                                    </a>
+                                </div>
+
+                                <ol class='carousel-indicators mCustomScrollbar meartlab'>
+                                    <li data-target='#carousel-custom' data-slide-to='0' class='active'>
+                                        <img src='<%=item.images[0].path%>' alt='' />
+                                    </li>
+                                    <% for(let i=1; i < item.images.length; i++){%>
+                                        <li data-target='#carousel-custom' data-slide-to='0' class='active'>
+                                            <img src='<%=item.images[i].path%>' alt='' />
+                                        </li>
+                                        <%}%>
+
+                                </ol>
+                            </div>
+                        </div>
+
+                        <% item.images.forEach(function(image, i) { %>
+                            <img src="<%=image.path%>" class="img-thumbnail" alt="">
+                            <div class="form-check-inline">
+
+                                <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=image.name%>">
+                                <label for="image-<%=i%>"> delet dis?</label>
+                            </div>
+                            <%})%>
+                </div>
+                <div class="col-md-7">
+                    <div class="single-product-details">
+                        <h2>
+                            <div class="input-group">
+                                <span class="input-group-text">Edit title:</span>
+                                <input class="form-control" type="text" name="item[name]" value="<%=item.name%>"
+                                    required>
+                            </div>
+                        </h2>
+                        <p class="product-price">
+                        <div class="input-group">
+                            <span class="input-group-text">Edit price:</span>
+                            <input class="form-control" type="number" name="item[price]" value="<%=item.price%>"
+                                required>
+                        </div>
+                        </p>
+                        <div class="input-group">
+                            <input type="file" class="form-control" placeholder="USABLE NOW" name="images" multiple>
+                        </div>
+
+                        <p class="product-description mt-20">
+                        <div class="input-group my-3">
+                            <span class="input-group-text">Edit description:</span>
+                            <textarea class="form-control" name="item[description]"
+                                id=""><%=item.description%></textarea>
+                        </div>
+                        </p>
+
+                        <button class="btn btn-success" type="submit">Submit edit(s)</button>
+                        </form>
+                        <form action="/bingChillin/delistItem/<%=item.id%>?_method=DELETE" method="POST" class="d-flex">
+                            <button class="btn btn-danger">Delist Item?</button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>

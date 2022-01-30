@@ -1,0 +1,90 @@
+<% layout("./boilerplate/fullBoilerplate.ejs")%>
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">Cart</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/shop/main">Home</a></li>
+                            <li class="active">Cart</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="page-wrapper">
+        <div class="cart shopping">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="block">
+                            <div class="product-list">
+                                <% let totalPrice=null %>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="">Item Name</th>
+                                                <th class="">Actions</th>
+                                                <th class="">Item Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for(item of shoppingCart){%>
+                                                <tr class="">
+                                                    <td class="">
+                                                        <div class="product-info">
+                                                            <img width="80" src="<%=item.images[0].path%>" alt="" />
+                                                            <a href="/shop/item/<%=item.id%>">
+                                                                <%=item.name%>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td class="">
+                                                        <form action="/shop/removeFromCart/<%=item.id%>?_method=DELETE"
+                                                            method="POST">
+                                                            <button class="btn">Remove</button>
+                                                        </form>
+                                                    </td>
+                                                    <td class="">
+                                                        $<%=item.price%>
+                                                    </td>
+                                                </tr>
+                                                <% totalPrice +=item.price%>
+                                                    <%}%>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="product-info">
+
+                                                                </div>
+                                                            </td>
+                                                            <td>
+
+                                                            </td>
+                                                            <td id="price">
+                                                                Total: $<%=totalPrice%>
+                                                            </td>
+                                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <span style="font-size: xx-small; display: none;" id="id">ID: <%=user.id%></span>
+                                    <div class="btn pull-right">
+                                        <div id="paypal-button-container"></div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=<%=paypalId%>&currency=USD"></script>
+
+    <script src="/js/paypal.js">
+    </script>
