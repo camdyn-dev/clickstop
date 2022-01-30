@@ -116,6 +116,9 @@ app.use("/bingChillin", adminRoutes)
 app.use("/review", reviewRoutes)
 app.use("/user", userRoutes)
 
+app.get("/", (req, res) => {
+    res.redirect("/shop/main")
+})
 
 //go to a 404 if none of the links are found
 app.all('*', (req, res, next) => {
