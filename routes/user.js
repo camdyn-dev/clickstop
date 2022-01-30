@@ -1,4 +1,4 @@
-//I should probably rename the views folder to something like userViews, but it fits in with the other themes
+//I should probably rename the views folder to something like userViews, but it fits in with the other themes amongus
 
 //express
 const express = require("express");
