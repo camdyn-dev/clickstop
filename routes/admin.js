@@ -24,7 +24,7 @@ const storage = new CloudinaryStorage({
 //helper utilities
 const { adminCheck } = require("../utilities/helpers/adminHelpers.js");
 const asyncHandler = require("../utilities/helpers/asyncHandler.js");
-const { itemValidation, loginValidation } = require("../utilities/joi/joiValidation.js");
+const { itemValidation, loginValidation } = require("../utilities/amongUs/joiValidation.js");
 
 
 //functional utilities

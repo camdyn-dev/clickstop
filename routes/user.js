@@ -8,7 +8,7 @@ const router = express.Router();
 //helper utilities
 const asyncHandler = require("../utilities/helpers/asyncHandler.js");
 const loginCheck = require("../utilities/helpers/loginCheck.js");
-const { loginValidation, registerValidation } = require("../utilities/joi/joiValidation.js");
+const { loginValidation, registerValidation } = require("../utilities/amongUs/joiValidation.js");
 const noUser = require("../utilities/helpers/noUser.js");
 
 
