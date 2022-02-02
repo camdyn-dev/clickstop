@@ -40,8 +40,8 @@ router.get("/item/:id", asyncHandler(async (req, res) => {
     let inCartPass = false
     //k, higher order functions r pretty kewl
     if (req.session.currentUser) {
-        inCartPass = user.shoppingCart.forEach((cartItem) => {
-            if(cartItem.id === item.id) return true
+        user.shoppingCart.forEach((cartItem) => {
+            if(cartItem.id === item.id) inCartPass = true
         })
         // for (arrayItem of user.shoppingCart) {
         //     if (arrayItem.id === item.id) {
@@ -68,9 +68,9 @@ router.post("/addToCart/:id", loginCheck, asyncHandler(async (req, res) => {
     const item = await Item.findById(req.params.id)
     const user = await User.findById(req.session.currentUser).populate("shoppingCart")
     //same cart function as above. probably a good idea to put it in its own function, since I'm using it twice
-    let inCart = user.shoppingCart.forEach((cartItem) => {
-        if (cartItem.id === item.id) return true
-        else return false
+    let inCart = false 
+    user.shoppingCart.forEach((cartItem) => {
+        if (cartItem.id === item.id) inCart = true
     })
     if (!inCart) {
         user.shoppingCart.push(item)
