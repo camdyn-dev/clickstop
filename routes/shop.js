@@ -38,9 +38,10 @@ router.get("/item/:id", asyncHandler(async (req, res) => {
     //this checks if the rendered item is in the cart or not, which decides whether or not to add the "Add to cart" button.
     //there is a function for multiple items built into the template, but this is a little better organized this way. Might put it in it's own function
     let inCartPass = false
+    //k, higher order functions r pretty kewl
     if (req.session.currentUser) {
-        inCartPass = user.shoppingCart.filter((cartItem) => {
-            if(cartItem === item.id) return true
+        inCartPass = user.shoppingCart.forEach((cartItem) => {
+            if(cartItem.id === item.id) return true
         })
         // for (arrayItem of user.shoppingCart) {
         //     if (arrayItem.id === item.id) {
