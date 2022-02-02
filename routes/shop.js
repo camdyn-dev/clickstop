@@ -29,12 +29,14 @@ router.get("/item/:id", asyncHandler(async (req, res) => {
     const user = await User.findById(req.session.currentUser).populate("shoppingCart")
     const item = await Item.findById(req.params.id).populate({ path: "reviews", populate: { path: "author" } })
     const preItems = await Item.find({}).populate("reviews")
-    let items = [] //more like "relatedItems", but I was too lazy to change the naming scheme. It works fine, tho
-    for (i of preItems) {
-        if (i.id !== item.id) {
-            items.push(i)
-        }
-    } //can probably use .filter here
+    let items = preItems.filter((i) => {
+        return i.id !== item.id
+    }) //more like "relatedItems", but I was too lazy to change the naming scheme. It works fine, tho
+    // for (i of preItems) {
+    //     if (i.id !== item.id) {
+    //         items.push(i)
+    //     }
+    // } //can probably use .filter here
     //this checks if the rendered item is in the cart or not, which decides whether or not to add the "Add to cart" button.
     //there is a function for multiple items built into the template, but this is a little better organized this way. Might put it in it's own function
     let inCartPass = false
