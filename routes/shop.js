@@ -39,12 +39,15 @@ router.get("/item/:id", asyncHandler(async (req, res) => {
     //there is a function for multiple items built into the template, but this is a little better organized this way. Might put it in it's own function
     let inCartPass = false
     if (req.session.currentUser) {
-        for (arrayItem of user.shoppingCart) {
-            if (arrayItem.id === item.id) {
-                console.log(arrayItem.id, item.id)
-                inCartPass = true
-            }
-        }
+        inCartPass = user.shoppingCart.filter((cartItem) => {
+            if(cartItem === item.id) return true
+        })
+        // for (arrayItem of user.shoppingCart) {
+        //     if (arrayItem.id === item.id) {
+        //         console.log(arrayItem.id, item.id)
+        //         inCartPass = true
+        //     }
+        // }
     }
     res.render("shop/itemDetails.ejs", { item, items, user, inCartPass })
 }))
