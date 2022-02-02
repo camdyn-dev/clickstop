@@ -34,7 +34,7 @@ router.get("/item/:id", asyncHandler(async (req, res) => {
         if (i.id !== item.id) {
             items.push(i)
         }
-    }
+    } //can probably use .filter here
     //this checks if the rendered item is in the cart or not, which decides whether or not to add the "Add to cart" button.
     //there is a function for multiple items built into the template, but this is a little better organized this way. Might put it in it's own function
     let inCartPass = false
@@ -68,12 +68,10 @@ router.post("/addToCart/:id", loginCheck, asyncHandler(async (req, res) => {
     const item = await Item.findById(req.params.id)
     const user = await User.findById(req.session.currentUser).populate("shoppingCart")
     //same cart function as above. probably a good idea to put it in its own function, since I'm using it twice
-    let inCart = false
-    for (arrayItem of user.shoppingCart) {
-        if (arrayItem.id === item.id) {
-            inCart = true
-        }
-    }
+    let inCart = user.shoppingCart.forEach((cartItem) => {
+        if (cartItem.id === item.id) return true
+        else return false
+    })
     if (!inCart) {
         user.shoppingCart.push(item)
         await user.save()
