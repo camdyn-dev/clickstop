@@ -42,7 +42,7 @@ router.delete("/deleteReview/:itemID/:reviewID", loginCheck, emailCheck, reviewO
     await Review.findByIdAndDelete(reviewID)
     //finds the item again, calculates it's average rating then sets it
     const item = await Item.findById(itemID).populate("reviews")
-    if(item.reviews > 0){
+    if(item.reviews.length > 0){
     item.ratingAvg = reviewAverage(item)}
     else{
         item.ratingAvg = 0
