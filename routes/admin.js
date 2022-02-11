@@ -52,7 +52,7 @@ router.get("/newItem", adminCheck, (req, res) => {
 
 router.post("/newItem", adminCheck, upload.array("images"), itemValidation, asyncHandler(async (req, res) => {
     //idk why I didn't just find the Admin by it's ID, that would prob work better
-    const admin = await Admin.findOne({ adminSecret: "epicGaming" })
+    const admin = await Admin.findOne({ adminSecret: process.env.ADMIN_SECRET })
     //pretty sure this is already taken care of with the adminCheck helper
     if (req.session.adminCheck) {
         const item = new Item(req.body.item)

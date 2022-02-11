@@ -2,7 +2,7 @@ const Admin = require("../../models/admin.js");
 
 module.exports.adminCheck = async (req, res, next) => {
     //checks if an admin is currently logged in or not
-    const admin = await Admin.findOne({ adminSecret: "epicGaming" })
+    const admin = await Admin.findOne({ adminSecret: process.env.ADMIN_SECRET })
     if (req.session.adminCheck) {
         if (req.session.adminCheck === admin.id) {
             console.log("adminCheck proc: success")
