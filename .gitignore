@@ -1,4 +1,4 @@
-archive
-node_modules
+archive/
+node_modules/
+seeds/
 .env
-seeds
