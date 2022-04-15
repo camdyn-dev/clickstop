@@ -49,14 +49,14 @@ const validateReview = Joi.object({
 //validates login - user and admin facing
 const validateLogin = Joi.object({
     username: Joi.string().escapeHTML().min(3).max(30).required(),
-    password: Joi.string().escapeHTML().min(10).max(64).required()
+    password: Joi.string().escapeHTML().min(5).max(64).required()
 })
 
 //validates registration, user facing
 const validateRegistration = Joi.object({
     username: Joi.string().escapeHTML().min(3).max(30).required(),
     email: Joi.string().email().escapeHTML().min(10).required(),
-    password: Joi.string().escapeHTML().min(10).max(64).required()
+    password: Joi.string().escapeHTML().min(5).max(64).required()
 })
 
 module.exports.validateItem = validateItem
