@@ -1,4 +1,4 @@
-#clickstop
+## clickstop
 
 This is a little project I made to practice full-stack skills and see how it would fit together in a real application.
 
