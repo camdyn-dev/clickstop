@@ -28,7 +28,7 @@ module.exports.reviewValidation = (req, res, next) => {
     }
 }
 
-//not sure how to do this without Joi, but it's worth doing cause mongo injection n shit; validates login and register paths
+//not sure how to do this without Joi, but it's worth doing cause mongo injection; validates login and register paths
 module.exports.loginValidation = (req, res, next) => {
     const { error } = validateLogin.validate(req.body)
     if (error) {

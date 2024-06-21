@@ -29,9 +29,11 @@ router.get("/register", noUser, (req, res) => {
 })
 
 router.post("/register", noUser, registerValidation, asyncHandler(async (req, res) => {
+    //making sure there isn't already a user with that name
     const userCheck = await User.findOne({ username: req.body.username })
     const emailCheck = await User.findOne({ email: req.body.email })
-    //making sure there isn't already a user with that name
+    
+    // if there isn't
     if (!userCheck && !emailCheck) {
         const hash = await bcrypt.hash(req.body.password, 12)
         const user = await new User({
@@ -42,10 +44,11 @@ router.post("/register", noUser, registerValidation, asyncHandler(async (req, re
             purchaseHistory: [],
             emailConfirmed: false
         })
-        await user.save()
-        //this adds it to the cookie i think
+        await user.save() // set all the required fields, then save the new user
+        //this adds it to the cookie
         req.session.currentUser = user._id
-        console.log(`POST /register: new user successfuly created`)
+        console.log(`POST /register: new user successfully created`)
+        
         req.flash("success", "Account created: Please confirm your email!")
         //sends an email for the user to confirm their email address
         confirmEmail(user.id, user.email).catch(e => { console.log(e) })

@@ -1,4 +1,3 @@
-//i'll figure out the production vs deployment shit later l m a o x d p p 4 2 0
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
 }
@@ -22,7 +21,7 @@ const ExpressError = require("./utilities/ExpressError.js");
 const helmet = require("helmet")
 
 
-//session options - currently they're just in like test mode. will revise to be better later, maybe add an ENV file to manage it correctly?
+//session options
 const mongoLink = process.env.MONGO_LINK
 const store = MongoStore.create({
     mongoUrl: mongoLink,

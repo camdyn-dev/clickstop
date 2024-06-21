@@ -15,14 +15,16 @@ router.get("/main", asyncHandler(async (req, res) => {
     const user = await User.findById(req.session.currentUser).populate(
       "shoppingCart"
     );
+
     const items = await Item.find({}).populate("reviews");
     res.render("shop/main.ejs", { items, user });
   })
 );
+
 router.get("/allItems", asyncHandler(async (req, res) => {
     const user = await User.findById(req.session.currentUser).populate(
       "shoppingCart"
-    );
+    ); 
     const items = await Item.find({}).populate("reviews");
     res.render("shop/index.ejs", { items, user });
   })
@@ -32,40 +34,30 @@ router.get("/item/:id", asyncHandler(async (req, res) => {
     const user = await User.findById(req.session.currentUser).populate(
       "shoppingCart"
     );
+
     const item = await Item.findById(req.params.id).populate({
       path: "reviews",
       populate: { path: "author" },
     });
+    
     const preItems = await Item.find({}).populate("reviews");
     let items = preItems.filter((i) => {
       return i.id !== item.id;
-    }); //more like "relatedItems", but I was too lazy to change the naming scheme. It works fine, tho
-    // for (i of preItems) {
-    //     if (i.id !== item.id) {
-    //         items.push(i)
-    //     }
-    // } //can probably use .filter here
-    //this checks if the rendered item is in the cart or not, which decides whether or not to add the "Add to cart" button.
-    //there is a function for multiple items built into the template, but this is a little better organized this way. Might put it in it's own function
+    });
+
     let inCartPass = false;
-    //k, higher order functions r pretty kewl
+    
     if (req.session.currentUser) {
       user.shoppingCart.forEach((cartItem) => {
         if (cartItem.id === item.id) inCartPass = true;
       });
-      // for (arrayItem of user.shoppingCart) {
-      //     if (arrayItem.id === item.id) {
-      //         console.log(arrayItem.id, item.id)
-      //         inCartPass = true
-      //     }
-      // }
+      
     }
     res.render("shop/itemDetails.ejs", { item, items, user, inCartPass });
   })
 );
 
 //Cart related routes
-
 router.get("/cart", loginCheck, asyncHandler(async (req, res) => {
     const user = await User.findById(req.session.currentUser).populate(
       "shoppingCart"
@@ -101,7 +93,8 @@ router.post("/addToCart/:id", loginCheck, asyncHandler(async (req, res) => {
 router.delete("/removeFromCart/:itemID", loginCheck, asyncHandler(async (req, res) => {
     const userID = req.session.currentUser;
     const itemID = req.params.itemID;
-    //god this took forever to find out. mongo is hard 2 memory
+    
+
     await User.findByIdAndUpdate(userID, { $pull: { shoppingCart: itemID } });
     req.flash("success", "Item removed from cart!");
     res.redirect("/shop/cart");
@@ -109,6 +102,3 @@ router.delete("/removeFromCart/:itemID", loginCheck, asyncHandler(async (req, re
 );
 
 module.exports = router;
-
-// I need to figure out a good way to disable the add to cart button when the thing is already in da cart
-// ^ dis has been done

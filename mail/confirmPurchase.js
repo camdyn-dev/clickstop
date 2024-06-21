@@ -14,7 +14,7 @@ module.exports = async function orderEmail(order, email) {
     });
     const data = await ejs.renderFile(__dirname + "/purchaseConfirmation.ejs", { order });
     const mainOptions = {
-        from: '"ShopStop" <noreply.shopstop@gmail.com>',
+        from: '"ClickStop" <noreply.shopstop@gmail.com>',
         to: email,
         subject: 'Thank you! - Your order',
         html: data

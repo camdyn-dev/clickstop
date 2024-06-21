@@ -53,15 +53,17 @@ router.get("/newItem", adminCheck, (req, res) => {
 router.post("/newItem", adminCheck, upload.array("images"), itemValidation, asyncHandler(async (req, res) => {
     //idk why I didn't just find the Admin by it's ID, that would prob work better
     const admin = await Admin.findOne({ adminSecret: process.env.ADMIN_SECRET })
-    //pretty sure this is already taken care of with the adminCheck helper
+    //pretty sure this is already taken care of with the adminCheck helper, but redundancy doesn't hurt
     if (req.session.adminCheck) {
         const item = new Item(req.body.item)
         item.adminID = admin.id
         console.log(`POST /newItem: ${req.files}`)
+
         for (image of req.files) {
             item.images.push({ path: image.path, name: image.filename })
-        }
+        } // take all the uploaded image paths and push them into the list
         await item.save()
+
         req.flash("success", "Item successfully created!")
         res.redirect(`/shop/item/${item.id}`)
     }

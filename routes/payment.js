@@ -27,9 +27,10 @@ router.get("/items/:id", loginCheck, asyncHandler(async (req, res) => {
 }))
 
 router.post("/transaction", asyncHandler(async (req, res) => {
-    console.log("recieved transaction data via Axios")
+    console.log("received transaction data via Axios")
     const user = await User.findById(req.body.id)
-    //extremely convoluted way of passing data into the database, but paypal is G A Y and it works
+
+    // This is a bit of a convoluted way of passing things through, but this is how it works with paypal.
     const transaction = new Transaction({
         orderData: {
             orderId: req.body.orderData.id,
@@ -43,8 +44,8 @@ router.post("/transaction", asyncHandler(async (req, res) => {
         customer: user.id,
         date: getDate()
     })
-    await transaction.save()
-    user.purchaseHistory.push(transaction)
+    await transaction.save() // All of it basically lets us save a transaction
+    user.purchaseHistory.push(transaction) // then push it into a user's purchase history
     user.shoppingCart = []
     await user.save()
     //sends the order confirmation/"thank you" email to the user
