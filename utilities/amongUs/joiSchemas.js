@@ -2,8 +2,7 @@ const BaseJoi = require("joi")
 
 const sanitizeHtml = require('sanitize-html');
 
-//this makes sure it doesn't include HTML. If I'm honest I kinda copied this off the internet so idk how exactly it works lul
-//pretty sure it justs extends Joi with sanitize HTML as a method tho
+//this makes sure it doesn't include HTML
 const extension = (joi) => ({
     type: 'string',
     base: joi.string(),
